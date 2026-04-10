@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Textos e crônicas por Ronaldo Prado</title>
+
+    <meta name="description" content="Textos, crônicas e reflexões autorais de Ronaldo Prado. Uma   experiência literária contemporânea com poesia e fotografia.">
+
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&   display=swap">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./style/style.css">
+
+    <!-- Favicon -->
+    <link rel="icon" href="./img/favicon.svg?v=2" type="image/svg+xml">
+
+    <!-- Open Graph (compartilhamento) -->
+    <meta property="og:title" content="Textos e crônicas por Ronaldo Prado">
+    <meta property="og:description" content="Reflexões, poemas e imagens autorais">
+    <meta property="og:image" content="./img/preview.jpg">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+
+    <header class="app-header">
+        <div class="header-content">
+            <div class="user-info">
+                <h1>Textos & crônicas</h1>                
+                <span>por Ronaldo Prado</span>
+            </div>
+    </header>
+
+    <main class="main-container">
+        <aside class="sidebar-pc">
+            <nav class="side-nav">
+                <a href="index.html" class="active">Início</a>
+                <a href="article.html">Textos</a>
+                <a href="photo.html">Passos de Caetano</a>
+                <a href="about.html">Sobre mim</a>
+            </nav>
+        </aside>
+
+        <section class="home-hero">
+            <p class="hero-label">Para cada instante</p>
+            <h2 class="hero-title">Sem fazer barulho,<br><span> escrita para cada instante.</span></h2>
+        </section>
+    </main>
+
+
+    <footer class="footer-newsletter">
+        <div class="newsletter-content">
+            <h3>Acompanhe meus versos</h3>
+            <p>Receba uma notificação sempre que um novo texto for publicado</p>
+
+            <form 
+              id="newsletter-form"
+              class="newsletter-form"
+              action="https://f1307c5e.sibforms.com/serve/MUIFANsyzoSvWEpzYqWFtZdO_McFOBtSNVVV8r6M1MVhYUZ8_XoFGgbiPUY7A-_4rFNPKr8IDX-m8FAIAwzpeySNeX_JMrwWzS82p9TlGI2oHrFVWAD5t437iTGmG8oeGjfr7Cheo-nqt8SjDq1i2ERUoENSuv05gEwToD9cGwcIpiYbQeOu29ZaI16d-fE151OurWfH1Zfci08tBA=="
+              method="POST"
+              target="hidden_iframe"
+            >
+
+              <!-- CONFIG BREVO -->
+              <input type="hidden" name="locale" value="pt">
+              <input type="hidden" name="html_type" value="simple">
+
+              <!-- CAMPO EMAIL -->
+              <input 
+                type="email" 
+                name="EMAIL"
+                placeholder="Digite seu email"
+                required
+              >
+
+              <!-- BOTÃO -->
+              <button type="submit">Inscrever-se</button>
+
+            </form>
+
+            <!-- IFRAME (necessário para evitar redirect) -->
+            <iframe name="hidden_iframe" style="display:none;"></iframe>
+
+            <!-- MENSAGEM -->
+            <p id="mensagem-sucesso" style="display:none; color:#ffffff; margin-top:15px; font-weight:600;          opacity:0.7;">
+              Obrigado! Cadastro realizado.
+            </p>
+        </div> 
+        <div class="copyright" style="margin-top: 40px; font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5;">
+            Desenvolvido por: <strong>Julio Araujo</strong>
+        </div>
+    </footer>
+
+    <div id="poemaModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+    <script src="./js/script.js"></script>
+</body>
+</html>

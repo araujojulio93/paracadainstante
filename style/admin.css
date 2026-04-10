@@ -1,0 +1,365 @@
+/* ===============================
+ADMIN PANEL - ESTILO ISOLADO
+=============================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Cormorant+Garamond&display=swap');
+
+:root {
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --muted: #888;
+    --border: #eee;
+    --accent: #0055ff;
+    --paper: #fcfaf5;
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* ================= LOGIN ================= */
+
+.login-container {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+}
+
+.login-box {
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+}
+
+.login-label {
+    font-size: 0.6rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.login-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    margin: 20px 0;
+}
+
+.login-box input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    padding: 12px;
+    margin-bottom: 20px;
+    text-align: center;
+    outline: none;
+}
+
+.login-box button {
+    border: 1px solid var(--accent);
+    background: transparent;
+    padding: 10px 25px;
+    cursor: pointer;
+}
+
+.login-box button:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+.login-error {
+    display: none;
+    color: red;
+    margin-top: 10px;
+}
+
+/* ================= HEADER ================= */
+
+.app-header {
+    padding: 60px 5% 30px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.user-info h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+}
+
+.user-info span {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+/* ================= NAV ================= */
+
+.sidebar-pc {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+}
+
+.side-nav {
+    display: flex;
+    gap: 25px;
+}
+
+.side-nav a {
+    text-decoration: none;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.side-nav a.active {
+    color: var(--accent);
+}
+
+/* ================= CONTAINER ================= */
+
+.main-container {
+    padding: 60px 5%;
+}
+
+.content-area {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* ================= HOME ================= */
+
+.home-hero {
+    text-align: center;
+    padding: 80px 0;
+}
+
+.hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+}
+
+/* ================= EDITOR ================= */
+
+.editor-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+/* CARD */
+.card-poema {
+    border: 1px solid var(--border);
+    padding: 30px;
+    background: #fff;
+}
+
+/* INPUT */
+#titulo {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    padding: 10px;
+    font-size: 1.2rem;
+    outline: none;
+}
+
+/* TEXT AREA */
+.editor-text {
+    min-height: 250px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    margin-top: 15px;
+    outline: none;
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1.8;
+}
+
+/* TOOLBAR */
+.editor-toolbar {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.editor-toolbar button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+}
+
+.editor-toolbar button:hover {
+    border-color: var(--accent);
+}
+
+.editor-toolbar button.active {
+    border-color: var(--accent);
+    background: rgba(0,0,0,0.05);
+}
+
+/* PREVIEW */
+.preview-box {
+    background: var(--paper);
+}
+
+.preview-text {
+    white-space: pre-line;
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1.8;
+}
+
+/* ================= UPLOAD ================= */
+
+.capa-container {
+    border: 1px dashed var(--border);
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+#preview {
+    width: 100%;
+    margin-top: 15px;
+}
+
+/* ================= BOTÕES ================= */
+
+#salvar-texto,
+#salvar-foto {
+    border: 1px solid var(--accent);
+    background: transparent;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#salvar-texto:hover,
+#salvar-foto:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* ================= LISTA ================= */
+
+#lista-admin {
+    display: grid;
+    gap: 20px;
+}
+
+#lista-admin article {
+    border: 1px solid var(--border);
+    padding: 20px;
+}
+
+/* ================= ANIMAÇÃO ================= */
+
+.fade-in {
+    animation: fade 0.4s ease;
+}
+
+/* ================= POSTS ADMIN ================= */
+
+#lista-admin {
+    display: grid;
+    gap: 15px;
+}
+
+/* CARD MAIS COMPACTO */
+#lista-admin article {
+    border: 1px solid var(--border);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+/* INFO */
+.post-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.post-info span {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.post-info h2 {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* AÇÕES */
+.post-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* BOTÕES */
+.btn-edit,
+.btn-delete {
+    border: 1px solid var(--border);
+    background: transparent;
+    padding: 6px 12px;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+/* EDIT */
+.btn-edit {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.btn-edit:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* DELETE */
+.btn-delete {
+    color: #c0392b;
+    border-color: #c0392b;
+}
+
+.btn-delete:hover {
+    background: #c0392b;
+    color: #fff;
+}
+
+@keyframes fade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================= RESPONSIVO ================= */
+
+@media (max-width: 900px) {
+    .editor-grid {
+        grid-template-columns: 1fr;
+    }
+}
