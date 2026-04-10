@@ -766,6 +766,27 @@ body {
   padding-top: 40px;
 }
 
+#ordenarSelect {
+  border: none;
+  background: none;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+  outline: none;
+}
+
+/* 🔥 remove o “quadrado preto” */
+#ordenarSelect:focus {
+  outline: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* opcional - leve feedback */
+#ordenarSelect:hover {
+  opacity: 0.7;
+}
+
 
 /* ================= CAPA ================= */
 
