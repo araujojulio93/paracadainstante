@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
   <link rel="stylesheet" href="./style/admin.css">
   <link rel="icon" href="./img/favicon.svg?v=2" type="image/svg+xml">  
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -67,7 +67,7 @@
         </h1>
       </div>
 
-      <!-- ✍️ NOVO (SEM GRID) -->
+      <!-- ✍️ NOVO -->
       <div id="novo-admin" style="display:none;">
 
         <div class="editor-grid">
@@ -78,14 +78,24 @@
             <div class="label-categoria">Novo conteúdo</div>
           
             <input id="titulo" placeholder="Título" style="margin:20px 0; width:100%;">
+            
             <div class="editor-toolbar">
-              <button id="btn-bold" class="format"><i data-lucide="bold"></i></button>
-              <button id="btn-italic" class="format"><i data-lucide="italic"></i></button>
-              <button id="btn-title" class="format"><i data-lucide="heading-2"></i></button>
-              <button id="btn-left" class="format"><i data-lucide="align-left"></i></button>
-              <button id="btn-center" class="format"><i data-lucide="align-center"></i></button>
-              <button id="btn-right" class="format"><i data-lucide="align-right"></i></button>
+              <button data-action="bold"><b>B</b></button>
+              <button data-action="italic"><i>I</i></button>
+              <button data-action="strike"><s>S</s></button>
+
+              <span class="divider"></span>
+
+              <button data-action="ul">•</button>
+              <button data-action="quote">❝</button>
+
+              <span class="divider"></span>
+
+              <button data-action="left">≡</button>
+              <button data-action="center">≣</button>
+              <button data-action="right">≡</button>
             </div>
+
             <div id="conteudo" class="editor-text" contenteditable="true"></div>
             
             <div id="drop-area" class="capa-container">
@@ -93,11 +103,24 @@
               <input type="file" id="imagem" hidden>
             </div>
           
-            <img id="preview" style="display:none; margin-top:20px; width:100%;">
+            <!-- 🔥 WRAPPER DA IMAGEM -->
+            <div id="preview-imagem-container" style="display:none;">
+              <img id="preview" style="margin-top:20px; width:100%;">
+            </div>
 
-            <div style="margin-top:20px; display:flex; gap:10px;">
-              <button id="salvar-texto">Publicar Texto</button>
-              <button id="salvar-foto">Publicar Foto</button>
+            <!-- 🔥 TOGGLE PREMIUM -->
+            <label class="toggle">
+              <input type="checkbox" id="tipoFoto">
+              <span class="slider"></span>
+              <span class="toggle-label">Post com imagem</span>
+            </label>
+
+            <label style="margin-top:10px">Data de publicação</label>
+            <input type="datetime-local" id="dataPublicacao" class="input-data">
+
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+              <button id="btn-publicar">Publicar agora</button>
+              <button id="btn-agendar">Agendar</button>
             </div>
           
           </div>
@@ -109,13 +132,13 @@
           
             <h2 id="preview-titulo" style="margin-top:20px;"></h2>
           
-            <p id="preview-conteudo" class="preview-text"></p>
+            <div id="preview-conteudo" class="preview-text"></div>
           
           </div>
         
         </div>
 
-</div>
+      </div>
 
       <!-- 📋 POSTS -->
       <div id="posts-admin" style="display:none;">

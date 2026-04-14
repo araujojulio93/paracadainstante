@@ -192,27 +192,37 @@ body {
 
 /* TOOLBAR */
 .editor-toolbar {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
 }
 
 .editor-toolbar button {
-    width: 36px;
-    height: 36px;
-    border: 1px solid var(--border);
-    background: transparent;
-    cursor: pointer;
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  padding: 6px;
+  cursor: pointer;
+  color: #555;
+  transition: all 0.2s ease;
 }
 
 .editor-toolbar button:hover {
-    border-color: var(--accent);
+  color: #000;
+  transform: translateY(-1px);
 }
 
 .editor-toolbar button.active {
-    border-color: var(--accent);
-    background: rgba(0,0,0,0.05);
+  color: #000;
+}
+
+.divider {
+  width: 1px;
+  height: 16px;
+  background: #ddd;
+  margin: 0 6px;
 }
 
 /* PREVIEW */
@@ -290,6 +300,58 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 15px;
+    border-bottom: 1px solid #eee;
+    transition: all 0.2s ease;
+}
+
+#lista-admin article:hover {
+  transform: translateX(4px);
+}
+/*  TOGGLE  */
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.toggle input {
+  display: none;
+}
+
+.slider {
+  width: 36px;
+  height: 18px;
+  background: #ccc;
+  border-radius: 20px;
+  position: relative;
+  transition: 0.3s;
+}
+
+.slider::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: 0.3s;
+}
+
+.toggle input:checked + .slider {
+  background: #111;
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(18px);
+}
+
+.toggle-label {
+  font-size: 13px;
 }
 
 /* INFO */
@@ -308,6 +370,7 @@ body {
 
 .post-info h2 {
     font-size: 1rem;
+    margin-top: 5px;
     font-weight: 500;
 }
 
@@ -315,6 +378,11 @@ body {
 .post-actions {
     display: flex;
     gap: 10px;
+}
+
+.post-actions button {
+  margin-right: 8px;
+  font-size: 12px;
 }
 
 /* BOTÕES */
@@ -338,6 +406,57 @@ body {
 .btn-edit:hover {
     background: var(--accent);
     color: #fff;
+}
+
+#tipoFoto {
+  accent-color: #111;
+  cursor: pointer;
+}
+
+label {
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+
+/*  BOTÃO  */
+
+button {
+  border: 1px solid #111;
+  background: transparent;
+  padding: 8px 16px;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+button:hover {
+  background: #111;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* STATUS */
+
+.status {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.status.publicado {
+  background: #e6f4ea;
+  color: #2e7d32;
+}
+
+.status.agendado {
+  background: #fff8e1;
+  color: #f57f17;
 }
 
 /* DELETE */

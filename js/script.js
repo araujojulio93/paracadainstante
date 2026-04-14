@@ -74,26 +74,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const { collection, getDocs, query, orderBy } = await import("https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js");
 
-        const q = query(collection(db, "artigos"), orderBy("data", "desc"));
+        const q = query(collection(db, "artigos"), orderBy("dataPublicacao", "desc"));
         const snapshot = await getDocs(q);
 
         let poemas = [];
 
         snapshot.forEach(doc => {
             const data = doc.data();
-
+        
             const tipo = (data.tipo || "texto").toLowerCase();
             if (tipo !== "texto" && tipo !== "text") return;
+        
+            // 🔥 FILTRO CORRETO
+            const agora = new Date();
+        
+            let dataPost = null;
 
-            const dataConvertida = data.data?.toDate ? data.data.toDate() : new Date();
+            if (data.dataPublicacao?.toDate) {
+              dataPost = data.dataPublicacao.toDate();
+            } else if (data.dataPublicacao) {
+              dataPost = new Date(data.dataPublicacao);
+            } else {
+              dataPost = new Date(); // fallback
+            }
 
+            if (!data.publicado || dataPost > agora) return;
+        
             poemas.push({
                 id: doc.id,
                 titulo: data.titulo || "Sem título",
                 texto: limparHTML(data.conteudo || ""),
                 imagem: data.imagem || "",
                 autor: data.autor || "Prado, Ronaldo",
-                data: dataConvertida
+                data: dataPost
             });
         });
 
@@ -149,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const tipo = (foto.tipo || "").toLowerCase();
             if (tipo !== "foto") return;
 
-            const dataConvertida = foto.data?.toDate ? foto.data.toDate() : new Date();
+            const dataConvertida = foto.dataPublicacao?.toDate ? foto.dataPublicacao.toDate() : new Date();
 
             const item = document.createElement('div');
             item.className = 'photo-item';

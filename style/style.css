@@ -775,6 +775,22 @@ body {
   outline: none;
 }
 
+#dataPublicacao {
+  /* margin-top: 15px; */
+  border: none;
+  border-bottom: 1px solid #111;
+  background: transparent;
+  padding: 6px;
+  font-size: 13px;
+  font-style: italic;
+  color: #333;
+  outline: none;
+}
+
+#dataPublicacao:focus {
+  border-bottom: 1px solid #000;
+}
+
 /* 🔥 remove o “quadrado preto” */
 #ordenarSelect:focus {
   outline: none;

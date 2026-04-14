@@ -140,15 +140,18 @@ document.getElementById("nav-posts")?.addEventListener("click", (e) => {
 
 const inputTitulo = document.getElementById("titulo");
 const inputConteudo = document.getElementById("conteudo");
-const inputAutor = document.getElementById("autor"); // 🔥 NOVO
-
-const btnSalvarTexto = document.getElementById("salvar-texto");
-const btnSalvarFoto = document.getElementById("salvar-foto");
+const inputAutor = document.getElementById("autor");
 
 const previewTitulo = document.getElementById("preview-titulo");
 const previewConteudo = document.getElementById("preview-conteudo");
 
+// 🔥 NOVO
+const checkboxFoto = document.getElementById("tipoFoto");
+const dropAreaContainer = document.getElementById("drop-area");
+
 let editandoId = null;
+let arquivo = null;
+let imagemPreviewURL = null;
 
 // limpeza
 function limparHTML(html) {
@@ -157,10 +160,30 @@ function limparHTML(html) {
     .replace(/<\/div>/g, "</p>");
 }
 
-// preview
+// ================= PREVIEW =================
+
 function atualizarPreview() {
+
+  const isFoto = checkboxFoto.checked;
+
   previewTitulo.textContent = inputTitulo.value || "Título";
-  previewConteudo.innerHTML = limparHTML(inputConteudo.innerHTML);
+
+  // TEXTO
+  if (!isFoto) {
+    previewConteudo.innerHTML = limparHTML(inputConteudo.innerHTML);
+    return;
+  }
+
+  // FOTO
+  if (imagemPreviewURL) {
+    previewConteudo.innerHTML = `
+      <img src="${imagemPreviewURL}" style="max-width:100%; margin-bottom:10px;">
+    `;
+  } else {
+    previewConteudo.innerHTML = `
+      <p style="opacity:0.5;">Nenhuma imagem selecionada</p>
+    `;
+  }
 }
 
 inputTitulo?.addEventListener("input", atualizarPreview);
@@ -180,48 +203,110 @@ function aplicarFormatacao(tipo) {
 }
 
 document.querySelectorAll(".editor-toolbar button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".editor-toolbar button").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
 
-    const tipo = btn.id.replace("btn-", "");
-    aplicarFormatacao(tipo);
+  btn.addEventListener("click", () => {
+
+    const action = btn.dataset.action;
+
+    inputConteudo.focus();
+
+    switch (action) {
+      case "bold":
+        document.execCommand("bold");
+        break;
+
+      case "italic":
+        document.execCommand("italic");
+        break;
+
+      case "strike":
+        document.execCommand("strikeThrough");
+        break;
+
+      case "ul":
+        document.execCommand("insertUnorderedList");
+        break;
+
+      case "quote":
+        document.execCommand("formatBlock", false, "blockquote");
+        break;
+
+      case "left":
+        document.execCommand("justifyLeft");
+        break;
+
+      case "center":
+        document.execCommand("justifyCenter");
+        break;
+
+      case "right":
+        document.execCommand("justifyRight");
+        break;
+    }
+
   });
+
+});
+
+// ================= ANIMAÇÃO TIPO =================
+
+checkboxFoto.addEventListener("change", () => {
+
+  const isFoto = checkboxFoto.checked;
+
+  // 🔥 MOSTRA/ESCONDE AREA DE IMAGEM
+  dropAreaContainer.style.display = isFoto ? "block" : "none";
+
+  // 🔥 ATIVA/DESATIVA TEXTO
+  inputConteudo.contentEditable = !isFoto;
+  inputConteudo.style.opacity = isFoto ? "0.5" : "1";
+
+  if (!isFoto) {
+    // 🔥 RESET TOTAL
+    imagemPreviewURL = null;
+    arquivo = null;
+
+    // 🔥 LIMPA VISUAL DO PREVIEW
+    previewConteudo.innerHTML = limparHTML(inputConteudo.innerHTML) || "";
+
+    // 🔥 GARANTE QUE O EDITOR CONTINUE VISÍVEL
+    inputConteudo.style.display = "block";
+    // inputConteudo.focus();
+  }
+
+  atualizarPreview();
 });
 
 // ================= UPLOAD =================
 
-let arquivo = null;
+// let arquivo = null;
 
 const inputFile = document.getElementById("imagem");
 const preview = document.getElementById("preview");
 const dropArea = document.getElementById("drop-area");
 
-// ---------- FUNÇÃO CENTRAL ----------
 function handleFile(file) {
   if (!file) return;
 
-  arquivo = file;
+  arquivo = file; // 🔥 GUARDA O ARQUIVO
 
   const reader = new FileReader();
   reader.onload = () => {
-    preview.src = reader.result;
-    preview.style.display = "block";
+    imagemPreviewURL = reader.result;
+    atualizarPreview();
   };
+
   reader.readAsDataURL(file);
 }
 
-// ---------- CLIQUE NORMAL ----------
 inputFile?.addEventListener("change", (e) => {
   handleFile(e.target.files[0]);
 });
 
-// ---------- CLIQUE NA ÁREA ----------
 dropArea?.addEventListener("click", () => {
   inputFile.click();
 });
 
-// ---------- DRAG ----------
 dropArea?.addEventListener("dragover", (e) => {
   e.preventDefault();
   dropArea.classList.add("drag-over");
@@ -231,7 +316,6 @@ dropArea?.addEventListener("dragleave", () => {
   dropArea.classList.remove("drag-over");
 });
 
-// ---------- DROP ----------
 dropArea?.addEventListener("drop", (e) => {
   e.preventDefault();
   dropArea.classList.remove("drag-over");
@@ -242,28 +326,53 @@ dropArea?.addEventListener("drop", (e) => {
 
 // ================= SALVAR =================
 
-async function salvar(tipo) {
+async function salvar(modo = "agora") {
+
   const titulo = inputTitulo.value;
   const conteudo = limparHTML(inputConteudo.innerHTML);
-  const autor = "Ronaldo Prado"; // 🔥 FIXO
+  const autor = "Ronaldo Prado";
+
+  const inputData = document.getElementById("dataPublicacao");
+
+  const tipo = checkboxFoto?.checked ? "foto" : "texto";
+
+  let publicado = false;
+  let dataPublicacao = null;
+
+  if (modo === "agora") {
+    publicado = true;
+    dataPublicacao = new Date();
+  } else {
+    if (!inputData.value) {
+      alert("Escolha uma data para agendar");
+      return;
+    }
+
+    publicado = false;
+    dataPublicacao = new Date(inputData.value);
+  }
 
   let imageUrl = "";
 
   try {
-    if (arquivo) {
+
+    if (tipo === "foto" && arquivo) {
       const refImg = ref(storage, "imagens/" + Date.now());
       await uploadBytes(refImg, arquivo);
       imageUrl = await getDownloadURL(refImg);
     }
 
-    // 🔥 EDITAR
     if (editandoId) {
+
       const docRef = doc(db, "artigos", editandoId);
 
       await updateDoc(docRef, {
         titulo,
         conteudo,
         autor,
+        tipo,
+        publicado,
+        dataPublicacao,
         ...(imageUrl && { imagem: imageUrl })
       });
 
@@ -272,30 +381,28 @@ async function salvar(tipo) {
 
     } else {
 
-      // 🔥 NOVO
       await addDoc(collection(db, "artigos"), {
         titulo,
         conteudo,
         imagem: imageUrl,
         autor,
-        data: new Date(),
-        tipo
+        tipo,
+        publicado,
+        dataPublicacao,
+        dataCriacao: new Date()
       });
 
-      alert("Publicado 🔥");
+      alert(modo === "agora" ? "Publicado 🔥" : "Agendado ⏳");
     }
 
-    // 🔥 RESET BOTÃO
-    btnSalvarTexto.textContent = "Publicar";
-    btnSalvarFoto.textContent = "Publicar";
-
-    // 🔥 LIMPAR
     inputTitulo.value = "";
     inputConteudo.innerHTML = "";
-    preview.src = "";
-    preview.style.display = "none";
-    arquivo = null;
+    document.getElementById("dataPublicacao").value = "";
+    checkboxFoto.checked = false;
 
+    imagemPreviewURL = null;
+    arquivo = null;
+  
     atualizarPreview();
 
     mostrarTela("posts-admin");
@@ -308,8 +415,13 @@ async function salvar(tipo) {
   }
 }
 
-document.getElementById("salvar-texto")?.addEventListener("click", () => salvar("texto"));
-document.getElementById("salvar-foto")?.addEventListener("click", () => salvar("foto"));
+// ================= BOTÕES =================
+
+document.getElementById("btn-publicar")
+  ?.addEventListener("click", () => salvar("agora"));
+
+document.getElementById("btn-agendar")
+  ?.addEventListener("click", () => salvar("agendar"));
 
 // ================= LISTAR POSTS =================
 
@@ -330,11 +442,20 @@ async function listarPosts() {
   snapshot.forEach((docItem) => {
     const data = docItem.data();
 
+    // ✅ CALCULA STATUS FORA DO HTML
+    const statusClass = data.publicado ? "publicado" : "agendado";
+
+    const statusTexto = data.publicado
+      ? "Publicado"
+      : data.dataPublicacao
+        ? new Date(data.dataPublicacao).toLocaleString()
+        : "Agendado";
+
     const div = document.createElement("article");
 
     div.innerHTML = `
       <div class="post-info">
-        <span>${data.tipo || "texto"} • ${data.autor || "Prado, Ronaldo"}</span>
+        <span>${data.tipo || "texto"} • ${data.autor || "Prado, Ronaldo"} • ${status}</span>
         <h2>${data.titulo || "Sem título"}</h2>
       </div>
 
@@ -357,7 +478,6 @@ async function listarPosts() {
 
 document.addEventListener("click", async (e) => {
 
-  // 🔥 EDITAR
   if (e.target.classList.contains("btn-edit")) {
     const id = e.target.dataset.id;
 
@@ -372,10 +492,6 @@ document.addEventListener("click", async (e) => {
 
         editandoId = id;
 
-        // 🔥 MUDA BOTÃO
-        btnSalvarTexto.textContent = "Atualizar Texto ✏️";
-        btnSalvarFoto.textContent = "Atualizar Foto ✏️";
-
         atualizarPreview();
 
         mostrarTela("novo-admin");
@@ -384,7 +500,6 @@ document.addEventListener("click", async (e) => {
     });
   }
 
-  // 🔥 DELETAR
   if (e.target.classList.contains("btn-delete")) {
     const id = e.target.dataset.id;
 
