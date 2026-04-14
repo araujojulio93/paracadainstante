@@ -330,7 +330,7 @@ async function salvar(modo = "agora") {
 
   const titulo = inputTitulo.value;
   const conteudo = limparHTML(inputConteudo.innerHTML);
-  const autor = "Ronaldo Prado";
+  const autor = "Prado, Ronaldo";
 
   const inputData = document.getElementById("dataPublicacao");
 

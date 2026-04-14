@@ -13,7 +13,12 @@ const BREVO_API_KEY = defineString("BREVO_API_KEY");
 
 // ================= ENVIO EMAIL =================
 
-exports.enviarPostPublicado = onDocumentUpdated("artigos/{id}", async (event) => {
+exports.enviarPostPublicado = onDocumentUpdated(
+  {
+    document: "artigos/{id}",
+    secrets: ["BREVO_API_KEY"] // 🔥 ESSENCIAL
+  },
+  async (event) => {
 
   const before = event.data.before.data();
   const after = event.data.after.data();
