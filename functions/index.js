@@ -1,6 +1,6 @@
 const { onDocumentUpdated } = require("firebase-functions/v2/firestore");
 const { onSchedule } = require("firebase-functions/v2/scheduler");
-const { defineString } = require("firebase-functions/params");
+const { defineSecret } = require("firebase-functions/params");
 const axios = require("axios");
 
 const admin = require("firebase-admin");
@@ -9,7 +9,7 @@ const { getFirestore } = require("firebase-admin/firestore");
 admin.initializeApp();
 const db = getFirestore();
 
-const BREVO_API_KEY = defineString("BREVO_API_KEY");
+const BREVO_API_KEY = defineSecret("BREVO_API_KEY");
 
 // ================= ENVIO EMAIL =================
 
