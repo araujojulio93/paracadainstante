@@ -117,7 +117,7 @@ exports.enviarPostPublicadoV2 = onDocumentUpdated(
           },
           type: "classic",
           htmlContent: html,
-          recipients: { listIds: [3] }
+          recipients: { listIds: [7] }
         },
         {
           headers: {
