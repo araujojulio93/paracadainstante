@@ -149,37 +149,56 @@ document.addEventListener('DOMContentLoaded', () => {
     async function carregarGaleria() {
         const gallery = document.getElementById('gallery-grid');
         if (!gallery) return;
-
-        const { collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js");
-
-        const snapshot = await getDocs(collection(db, "artigos"));
-
+    
+        const { collection, getDocs, query, where } = await import(
+            "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js"
+        );
+    
+        const q = query(
+            collection(db, "artigos"),
+            where("publicado", "==", true)
+        );
+    
+        const snapshot = await getDocs(q);
+    
         gallery.innerHTML = '';
-
+    
         snapshot.forEach(doc => {
             const foto = doc.data();
-
+        
             const tipo = (foto.tipo || "").toLowerCase();
             if (tipo !== "foto") return;
-
-            const dataConvertida = foto.dataPublicacao?.toDate ? foto.dataPublicacao.toDate() : new Date();
-
+        
+            const agora = new Date();
+        
+            let dataPost = null;
+        
+            if (foto.dataPublicacao?.toDate) {
+              dataPost = foto.dataPublicacao.toDate();
+            } else if (foto.dataPublicacao) {
+              dataPost = new Date(foto.dataPublicacao);
+            } else {
+              dataPost = new Date();
+            }
+        
+            if (dataPost > agora) return;
+        
             const item = document.createElement('div');
             item.className = 'photo-item';
-
+        
             item.innerHTML = `
                 <div class="capa-container">
                     <img src="${foto.imagem}" loading="lazy">
                 </div>
                 <div class="info-container">
                     <span class="metadados">
-                        ${formatarData(dataConvertida)} • ${foto.autor || "Prado, Ronaldo"}
+                        ${formatarData(dataPost)} • ${foto.autor || "Prado, Ronaldo"}
                     </span>
                     <h2>${foto.titulo}</h2>
                     <p>${foto.legenda || ''}</p>
                 </div>
             `;
-
+        
             item.onclick = () => abrirModalFoto(foto);
             gallery.appendChild(item);
         });

@@ -448,14 +448,17 @@ async function listarPosts() {
     const statusTexto = data.publicado
       ? "Publicado"
       : data.dataPublicacao
-        ? new Date(data.dataPublicacao).toLocaleString()
-        : "Agendado";
+        ? `Agendado`
+        : "Rascunho";
 
     const div = document.createElement("article");
 
     div.innerHTML = `
       <div class="post-info">
-        <span>${data.tipo || "texto"} • ${data.autor || "Prado, Ronaldo"} • ${status}</span>
+        <span>
+          ${data.tipo || "texto"} • ${data.autor || "Prado, Ronaldo"} • 
+          <span class="status ${statusClass}">${statusTexto}</span>
+        </span>
         <h2>${data.titulo || "Sem título"}</h2>
       </div>
 

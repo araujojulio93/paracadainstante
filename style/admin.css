@@ -443,20 +443,20 @@ button:active {
 /* STATUS */
 
 .status {
-  font-size: 11px;
-  padding: 4px 10px;
+  padding: 3px 10px;
   border-radius: 20px;
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 600;
 }
 
-.status.publicado {
-  background: #e6f4ea;
-  color: #2e7d32;
+.publicado {
+  background: #e6f7ee;
+  color: #1f8f5f;
 }
 
-.status.agendado {
-  background: #fff8e1;
-  color: #f57f17;
+.agendado {
+  background: #fff4e5;
+  color: #c77700;
 }
 
 /* DELETE */
