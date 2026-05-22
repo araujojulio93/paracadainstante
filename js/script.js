@@ -60,13 +60,44 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function limparHTML(html) {
+    
         if (!html) return "";
-
-        return html
-            .replace(/<div>/g, "<p>")
-            .replace(/<\/div>/g, "</p>");
+    
+        const temp = document.createElement('div');
+    
+        temp.innerHTML = html;
+    
+        // converte div -> p
+        temp.querySelectorAll('div').forEach(div => {
+        
+            const p = document.createElement('p');
+            p.innerHTML = div.innerHTML;
+        
+            div.replaceWith(p);
+        
+        });
+    
+        // limpa atributos
+        temp.querySelectorAll('*').forEach(el => {
+        
+            el.removeAttribute('style');
+            el.removeAttribute('class');
+            el.removeAttribute('face');
+            el.removeAttribute('color');
+        
+        });
+    
+        // remove spans inúteis
+        temp.querySelectorAll('span').forEach(span => {
+        
+            if (!span.attributes.length) {
+                span.outerHTML = span.innerHTML;
+            }
+        
+        });
+    
+        return temp.innerHTML;
     }
-
     // ---------------- TEXTOS ----------------
     async function carregarPoemas(filtro = '') {
         const container = document.getElementById('lista-poemas');
