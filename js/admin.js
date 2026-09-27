@@ -433,8 +433,8 @@ async function salvar(modo = "agora") {
     listarPosts();
 
   } catch (error) {
-    console.error(error);
-    alert("Erro ao salvar");
+    console.error("Erro ao salvar:", error);
+   alert("Erro ao salvar: " + (error.message || error));
   }
 }
 
