@@ -26,6 +26,8 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
+
 // ================= CONFIG =================
 
 const firebaseConfig = {
@@ -37,6 +39,11 @@ const firebaseConfig = {
   appId: "1:1011959284933:web:92687246cf2c5f69161cac",
   measurementId: "G-Q8SD0Q9JGD"
 };
+
+const SUPABASE_URL = "https://mbalrudfopeyyiqnfhfs.supabase.co";
+const SUPABASE_KEY = "sb_publishable_KzrpFGGS-v0fUZICLaICig_sfWpZjoe";
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ================= INIT =================
 
@@ -357,10 +364,26 @@ async function salvar(modo = "agora") {
   try {
 
     if (tipo === "foto" && arquivo) {
-      const refImg = ref(storage, "imagens/" + Date.now());
-      await uploadBytes(refImg, arquivo);
-      imageUrl = await getDownloadURL(refImg);
+
+      const nomeArquivo = `${Date.now()}-${arquivo.name}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("imagens")
+        .upload(nomeArquivo, arquivo);
+
+      if (uploadError) {
+        console.error("Erro no upload para Supabase:", uploadError);
+        throw uploadError;
     }
+    
+  const { data: publicUrlData } = supabase.storage
+    .from("imagens")
+    .getPublicUrl(nomeArquivo);
+
+  imageUrl = publicUrlData.publicUrl;
+
+  console.log("Imagem enviada:", imageUrl);
+}
 
     if (editandoId) {
 
